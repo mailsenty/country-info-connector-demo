@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:country-info="http://www.mulesoft.org/schema/mule/country-info" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/country-info http://www.mulesoft.org/schema/mule/country-info/current/mule-country-info.xsd">
+    <country-info:config name="CountryInfo__Configuration" doc:name="CountryInfo: Configuration"/>
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
+    <flow name="country-info-capital-demoFlow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/capital" doc:name="HTTP"/>
+        <country-info:find-by-capital config-ref="CountryInfo__Configuration" capital="#[message.inboundProperties.'http.query.params'.capital]" doc:name="CountryInfo"/>
+    </flow>
+    <flow name="country-info-curr-demoFlow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/currency" doc:name="HTTP"/>
+        <country-info:find-by-capital config-ref="CountryInfo__Configuration" capital="#[message.inboundProperties.'http.query.params'.currency]" doc:name="CountryInfo"/>
+    </flow>
+    <flow name="country-info-lang-demoFlow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/lang" doc:name="HTTP"/>
+        <country-info:find-by-capital config-ref="CountryInfo__Configuration" capital="#[message.inboundProperties.'http.query.params'.lang]" doc:name="CountryInfo"/>
+    </flow>
+</mule>
